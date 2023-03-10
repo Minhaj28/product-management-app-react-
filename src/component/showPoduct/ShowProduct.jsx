@@ -3,12 +3,31 @@ import React from "react";
 import ShowProductStyle from "./ShowProductStyle.css";
 
 const ShowProduct = ({ products, setProducts }) => {
+
+
   function deleteProduct(index) {
-    alert("Are you sure you want to delete this product???");
-    const newProducts = products.filter(
-      (product, position) => position !== index
-    );
-    setProducts([...newProducts]);
+    //  alert("Are you sure you want to delete this product???");
+    if(window.confirm("Are you sure you want to delete this product???")){
+
+      const newProducts = products.filter(
+        (product, position) => position !== index
+      );
+      setProducts([...newProducts]);
+    }
+  }
+
+  function deleteAllProduct() {
+    //  alert("Are you sure you want to delete all selected product???");
+    if(window.confirm("Are you sure you want to delete all selected product???")){
+
+      const newProducts = products.filter(
+        product => {
+          if(!product.selected)
+            return product;
+        }
+      );
+      setProducts([...newProducts]);
+    }
   }
 
   function selectProduct(index) {
@@ -35,14 +54,19 @@ const ShowProduct = ({ products, setProducts }) => {
             {product.selected ? (
               <strike>{product.name}</strike>
             ) : (
-              <span>{product.name}</span>
+               <span>{product.name}</span>
             )}
           </p>
           <button id="delete" onClick={() => deleteProduct(index)}>
             Delete
           </button>
+          
         </div>
+        
       ))}
+      <button id="deleteall" onClick={deleteAllProduct}>
+            DeleteSelectedItem
+          </button>
     </div>
   );
 };
